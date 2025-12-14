@@ -3,7 +3,7 @@ package proyecto
 fun main() {
     println("=== Ejecutando Main.kt ===")
 
-    val rutaMP3 = "/home/familia/proyecto/mp3Files/sample3.mp3"
+    val rutaMP3 = "/mnt/c/Users/jeans/OneDrive/Escritorio/Jean Carlos/College/Sophomore year/Sept-Dic/Lab de algos II/labs/proyecto/administrador_de_musica/proyecto/mp3Files/sample3.mp3"
 
     // ====================== Comprobación Cancion.kt ======================
     println("=== Comprobación Cancion.kt ===")
@@ -57,7 +57,9 @@ fun main() {
 
         val listaSecuencia = arbol.deArbolASecuencia()
         println("Recorrido en secuencia del árbol:")
-        listaSecuencia.recorrer { c -> println("- ${c.obtenerTitulo()} de ${c.obtenerInterprete()}") }
+        for (c in listaSecuencia) {
+            println("- ${c.obtenerTitulo()} de ${c.obtenerInterprete()}")
+        }
 
     } catch (e: Exception) {
         println("Error al probar ArbolDeCanciones: ${e.message}")
