@@ -89,9 +89,6 @@ class ArbolDeCanciones {
         recorridoEnOrden(node.rightChild, lista)
     }
 
-
-
-
     fun esArbolDeBusqCancionR(nodo: Node?, minCancion: Cancion?, maxCancion: Cancion?): Boolean {
         if (nodo == null) return true
 
@@ -111,5 +108,115 @@ class ArbolDeCanciones {
 
     fun esArbolDeBusqCancion(): Boolean {
         return esArbolDeBusqCancionR(head, null, null)
+    }
+
+
+    // busca un nodo exacto en el árbol; retorna null si no existe
+    fun buscar(i: String, t: String): Node?{
+        var actual: Node? = head
+        while (actual != null){
+            if(actual.key.obtenerInterprete() < i){
+                actual = actual.rightChild
+            }
+            else if(actual.key.obtenerInterprete() > i){
+                actual = actual.leftChild
+            }
+            // actual.key.obtenerInterprete() == i
+            else{
+                if(actual.key.obtenerTitulo() < t){
+                    actual = actual.rightChild
+                }
+                else if(actual.key.obtenerTitulo() > t){
+                    actual = actual.leftChild
+                }
+                // actual.key.obtenerTitulo() == t
+                else {
+                    return actual
+                }
+            }
+        }
+        return null
+        }
+
+
+    fun minimo(x: Node): Node?{
+        var actual: Node? = x
+        while (actual?.leftChild != null){
+            actual = actual.leftChild
+        } 
+        return actual
+    }
+
+    fun sucesor(x: Node?): Node?{
+        if (x?.rightChild != null){
+            return minimo(x?.rightChild!!)
+        }
+        var y: Node? = x?.parent
+
+        var actual: Node? = x
+        while (y != null && actual == y.rightChild){
+            actual = y
+            y = y.parent
+        }
+        return y
+    }
+
+    fun eliminar(i: String, t: String){
+        var nodo: Node? = buscar(i, t)
+        if (nodo == null){
+            throw IllegalArgumentException("La cancion seleccionada no esta en la lista")
+        }
+
+        var y: Node? 
+        var x: Node? 
+
+        if (nodo.leftChild == null || nodo.rightChild == null){
+            y = nodo
+        }else{
+            y = sucesor(nodo)
+        }
+        if (y?.leftChild != null){
+            x = y?.leftChild
+        } else { 
+            x = y?.rightChild
+        } 
+        if( x !=  null  ){
+            x?.parent = y?.parent 
+        }
+        if (y?.parent == null){ 
+            this.head = x
+        }else{
+            if( y == y?.parent?.leftChild ){
+                y?.parent?.leftChild = x
+            } else { 
+                y?.parent?.rightChild = x 
+            }
+        }
+        if (y != nodo){
+            // move y node into nodo's position instead of trying to reassign an immutable key
+            // attach y? to nodo's parent
+            y?.parent = nodo?.parent
+            if (nodo?.parent == null) {
+                this.head = y
+            } else {
+                if (nodo == nodo?.parent?.leftChild) {
+                    nodo?.parent?.leftChild = y
+                } else {
+                    nodo?.parent?.rightChild = y
+                }
+            }
+
+            // adopt nodo's left child
+            y?.leftChild = nodo?.leftChild
+            if (y?.leftChild != null) {
+                y?.leftChild?.parent = y
+            }
+
+            // adopt nodo's right child
+            y?.rightChild = nodo?.rightChild
+            if (y?.rightChild != null) {
+                y?.rightChild?.parent = y
+            }
+        }
     }
 }
