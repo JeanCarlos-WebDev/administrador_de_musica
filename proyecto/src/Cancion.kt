@@ -84,8 +84,7 @@ class Cancion (val titulo: String, val interprete: String, var ubicacion: String
     override fun toString(): String {
         return "----------------------\nTítulo: $titulo \nInterprete: $interprete"
     }
-    
-    
+
     /**
      * Descripción: Función auxiliar privada que verifica si la ruta de la ubicación es válida.
      *
