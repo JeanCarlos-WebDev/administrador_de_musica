@@ -1,6 +1,6 @@
 package proyecto
 /**
- * Clase que representa un nodo fundamental en una estructura de árbol binario de búsqueda (BST).
+ * Clase que representa un nodo fundamental en una estructura de árbol binario de canciones.
  *
  * Descripción:
  * Cada nodo almacena un elemento de datos ('key') y mantiene las referencias necesarias
